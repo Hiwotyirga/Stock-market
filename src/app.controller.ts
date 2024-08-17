@@ -42,9 +42,12 @@ export class AppController {
   async RoleCreate(@Body() roleDtos: RolesDtos): Promise<Role> {
     return this.appService.createRole(roleDtos);
   }
-  @Post('adminRegister')
-  async AdminRegister(@Body() adminRegisterDtos: AdminRegisterCreateDto): Promise<AdminRegister>{
-    return this.appService.createAdmin(adminRegisterDtos)
+  @Post(':roleId')
+  async createAdmin(
+    @Param('roleId') roleId: string,
+    @Body() adminRegisterDtos: AdminRegisterCreateDto,
+  ): Promise<AdminRegister> {
+    return this.appService.createAdmin(roleId, adminRegisterDtos);
   }
   @Get('role')
   async findRole(): Promise<Role[]>{
