@@ -23,7 +23,7 @@ export class AppController {
 
   @Post()
   async create(@Body() userCreateDto: UserCreateDto): Promise<User> {
-    const createUser = await this.appService.create(userCreateDto);
+    const createUser = await this.appService.createUser(userCreateDto);
     return createUser;
   }
 
@@ -40,10 +40,14 @@ export class AppController {
   }
   @Post('role')
   async RoleCreate(@Body() roleDtos: RolesDtos): Promise<Role> {
-    return this.appService.RoleCreate(roleDtos);
+    return this.appService.createRole(roleDtos);
   }
   @Post('adminRegister')
   async AdminRegister(@Body() adminRegisterDtos: AdminRegisterCreateDto): Promise<AdminRegister>{
     return this.appService.createAdmin(adminRegisterDtos)
+  }
+  @Get('role')
+  async findRole(): Promise<Role[]>{
+    return this.appService.findRole()
   }
 }

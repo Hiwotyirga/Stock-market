@@ -10,4 +10,9 @@ export class AuthController {
   async signIn(@Body() signInDto: { name: string; password: string }) {
     return this.authService.signIn(signInDto.name, signInDto.password);
   }
+
+  @Post('login/admin')
+  async signInAdmin(@Body() signInDto: { name: string; password: string }) {
+    return this.authService.signInAdmin(signInDto.name, signInDto.password);
+  }
 }

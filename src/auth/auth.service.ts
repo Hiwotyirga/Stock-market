@@ -19,4 +19,15 @@ export class AuthService {
       access_token: await this.jwtService.signAsync(payload),
     };
   }
+
+  async signInAdmin(name: string, password: string): Promise<{ access_token: string }> {
+    const admin = await this.usersService.findOneAdmin(name); // Corrected this line
+    if (!admin || admin.password !== password) {
+      throw new UnauthorizedException();
+    }
+    const payload = { sub: admin.id, username: admin.name };  
+    return {
+      access_token: await this.jwtService.signAsync(payload),
+    };
+  }
 }

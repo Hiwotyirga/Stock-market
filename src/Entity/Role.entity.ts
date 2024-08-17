@@ -1,16 +1,19 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToMany } from 'typeorm';
-// import { Admin } from './AdminRegister.entity';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToMany,
+} from 'typeorm';
 import { AdminRegister } from './AdminRegister.entity';
 
 @Entity('roles')
 export class Role {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: string; // Changed to string
 
   @Column()
   name: string;
 
   @ManyToMany(() => AdminRegister, (admin) => admin.roles)
-  adminRegister: AdminRegister[];
-
+  adminRegisters: AdminRegister[];
 }
