@@ -74,4 +74,8 @@ export class AppService {
     return this.roleRepository.find()
 
   }
+
+  async findAdmin(): Promise<AdminRegister[]>{
+    return this.adminRepository.find()
+  }
 }

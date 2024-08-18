@@ -7,6 +7,11 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { Role } from './Entity/Role.entity';
 import { AdminRegister } from './Entity/AdminRegister.entity';
+// import { NewService } from './new/new.service';
+import { NewModule } from './new/new.module';
+// import { NewController } from './new/new.controller';
+// import { NewService } from './new/new.service';
+
 
 @Module({
   imports: [
@@ -23,6 +28,8 @@ import { AdminRegister } from './Entity/AdminRegister.entity';
     TypeOrmModule.forFeature([User, Role, AdminRegister]),
     AuthModule,
     UsersModule,
+    NewModule
+    
   ],
   controllers: [AppController],
   providers: [AppService],

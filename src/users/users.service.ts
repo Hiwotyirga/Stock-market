@@ -21,4 +21,7 @@ export class UsersService {
   async findOneAdmin(name: string): Promise<AdminRegister | undefined> {
     return this.adminRepository.findOneBy({ name });
   }
+  // async findOneContent(name: string): Promise<AdminRegister | undefined> {
+  //   return this.adminRepository.findOneBy({ name });
+  // }
 }

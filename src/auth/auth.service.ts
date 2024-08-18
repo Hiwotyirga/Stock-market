@@ -11,21 +11,27 @@ export class AuthService {
 
   async signIn(name: string, password: string): Promise<{ access_token: string }> {
     const user = await this.usersService.findOne(name);
-    if (!user || user.password !== password) {
-      throw new UnauthorizedException();
+    if (!user) {
+      throw new UnauthorizedException('User not found');
     }
-    const payload = { sub: user.id, username: user.name };  // Ensure the properties are correct
+    if (user.password !== password) {
+      throw new UnauthorizedException('Incorrect password');
+    }
+    const payload = { sub: user.id, username: user.name };
     return {
       access_token: await this.jwtService.signAsync(payload),
     };
   }
 
   async signInAdmin(name: string, password: string): Promise<{ access_token: string }> {
-    const admin = await this.usersService.findOneAdmin(name); // Corrected this line
-    if (!admin || admin.password !== password) {
-      throw new UnauthorizedException();
+    const admin = await this.usersService.findOneAdmin(name);
+    if (!admin) {
+      throw new UnauthorizedException('Admin not found');
     }
-    const payload = { sub: admin.id, username: admin.name };  
+    if (admin.password !== password) {
+      throw new UnauthorizedException('Incorrect password');
+    }
+    const payload = { sub: admin.id, username: admin.name }; 
     return {
       access_token: await this.jwtService.signAsync(payload),
     };

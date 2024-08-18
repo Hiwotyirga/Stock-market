@@ -53,4 +53,8 @@ export class AppController {
   async findRole(): Promise<Role[]>{
     return this.appService.findRole()
   }
+  @Get('adminlist')
+  async findAdmin(): Promise<AdminRegister[]>{
+    return this.appService.findAdmin()
+  }
 }
