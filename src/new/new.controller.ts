@@ -1,13 +1,13 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { NewService } from './new.service';
 
-@Controller('new')
+@Controller('news')
 export class NewController {
-  constructor(private readonly stockService: NewService) {}
+  constructor(private readonly newService: NewService) {}
 
-  @Get(':symbol')
-  async getStockData(@Param('symbol') symbol: string) {
-    const stockData = await this.stockService.getNewData(symbol);
-    return stockData;
+  @Get()
+  async getNewsData() {
+    const newsData = await this.newService.getNewsData();
+    return newsData;
   }
 }

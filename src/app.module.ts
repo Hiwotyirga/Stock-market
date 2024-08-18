@@ -11,10 +11,12 @@ import { AdminRegister } from './Entity/AdminRegister.entity';
 import { NewModule } from './new/new.module';
 // import { NewController } from './new/new.controller';
 // import { NewService } from './new/new.service';
+import { CacheModule } from '@nestjs/cache-manager';
 
 
 @Module({
   imports: [
+    
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
