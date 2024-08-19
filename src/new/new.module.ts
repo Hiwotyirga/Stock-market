@@ -1,16 +1,21 @@
 import { Module } from '@nestjs/common';
 import { HttpModule } from '@nestjs/axios';
-import { NewService } from './new.service';
-import { NewController } from './new.controller';
 import { CacheModule } from '@nestjs/cache-manager';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { News } from 'src/Entity/news.entity';
+// import { NewsService } from './new.service';
+import { NewsController } from './new.controller';
+import { VideoUploadController } from './video-upload/video-upload.controller';
 @Module({
   imports: [
+    TypeOrmModule.forFeature([News]),
     HttpModule,
     CacheModule.register({
       ttl: 3600, // Default TTL for cache
     }),
   ],
-  providers: [NewService],
-  controllers: [NewController],
+  providers: [],
+  controllers: [NewsController, VideoUploadController],
+ 
 })
 export class NewModule {}

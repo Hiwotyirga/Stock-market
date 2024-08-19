@@ -14,6 +14,5 @@ export class Role {
   @Column()
   name: string;
 
-  @ManyToMany(() => AdminRegister, (admin) => admin.roles)
-  adminRegisters: AdminRegister[];
+ 
 }

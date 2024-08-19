@@ -41,39 +41,38 @@ export class AppService {
   }
 
   async createAdmin(
-    roleId: string,
     adminRegisterDtos: AdminRegisterCreateDto,
   ): Promise<AdminRegister> {
     const { name, email, password } = adminRegisterDtos;
 
     // Fetch the role based on the provided roleId from the URL
-    const role = await this.roleRepository.findOne({ where: { id: roleId } });
+    // const role = await this.roleRepository.findOne({ where: { id: roleId } });
 
-    if (!role) {
-      throw new NotFoundException('Role not found');
-    }
+    // if (!role) {
+    //   throw new NotFoundException('Role not found');
+    // }
 
     // Create a new admin entity with the fetched role
     const admin = this.adminRepository.create({
       name,
       email,
       password,
-      roles: [role], // roles is now an array with a single Role entity
+      // roles: [role], // roles is now an array with a single Role entity
     });
 
     // Save the admin entity to the database
     return this.adminRepository.save(admin);
   }
   
-  async createRole(roleCreateDtos: RolesDtos): Promise<Role> {
-    const role = this.roleRepository.create(roleCreateDtos);
-    return this.roleRepository.save(role);
-  }
+  // async createRole(roleCreateDtos: RolesDtos): Promise<Role> {
+  //   const role = this.roleRepository.create(roleCreateDtos);
+  //   return this.roleRepository.save(role);
+  // }
 
-  async findRole(): Promise<Role[]>{
-    return this.roleRepository.find()
+  // async findRole(): Promise<Role[]>{
+  //   return this.roleRepository.find()
 
-  }
+  // }
 
   async findAdmin(): Promise<AdminRegister[]>{
     return this.adminRepository.find()

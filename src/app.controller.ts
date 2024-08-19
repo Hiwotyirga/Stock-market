@@ -38,21 +38,20 @@ export class AppController {
   ) {
     return this.appService.updateUser(userId, userUpdateDto);
   }
-  @Post('role')
-  async RoleCreate(@Body() roleDtos: RolesDtos): Promise<Role> {
-    return this.appService.createRole(roleDtos);
-  }
-  @Post(':roleId')
+  // @Post('role')
+  // async RoleCreate(@Body() roleDtos: RolesDtos): Promise<Role> {
+  //   return this.appService.createRole(roleDtos);
+  // }
+  @Post('/admin')
   async createAdmin(
-    @Param('roleId') roleId: string,
     @Body() adminRegisterDtos: AdminRegisterCreateDto,
   ): Promise<AdminRegister> {
-    return this.appService.createAdmin(roleId, adminRegisterDtos);
+    return this.appService.createAdmin(adminRegisterDtos);
   }
-  @Get('role')
-  async findRole(): Promise<Role[]>{
-    return this.appService.findRole()
-  }
+  // @Get('role')
+  // async findRole(): Promise<Role[]>{
+  //   return this.appService.findRole()
+  // }
   @Get('adminlist')
   async findAdmin(): Promise<AdminRegister[]>{
     return this.appService.findAdmin()

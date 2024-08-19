@@ -1,23 +1,30 @@
 import { Injectable } from '@nestjs/common';
-import { HttpService } from '@nestjs/axios';
-import { AxiosResponse } from 'axios';
-import { lastValueFrom } from 'rxjs';
+import { InjectRepository } from '@nestjs/typeorm';
+import { News } from 'src/Entity/news.entity';
+import { Repository } from 'typeorm';
+
 
 @Injectable()
-export class NewService {
-  private readonly apiKey = 'deef9d2387004093a321b9580e9350aa'; // Replace with your News API key
-  private readonly baseUrl = 'https://newsapi.org/v2/everything';
+export class NewsService {
+  constructor(
+    @InjectRepository(News)
+    private readonly newsRepository: Repository<News>,
+  ) {}
 
-  constructor(private readonly httpService: HttpService) {}
+  async createNews(newsData: Partial<News>): Promise<News> {
+    const news = this.newsRepository.create(newsData);
+    return this.newsRepository.save(news);
+  }
 
-  async getNewsData(): Promise<any> {
-    const url = `${this.baseUrl}?q=stock market&apiKey=${this.apiKey}`;
-    try {
-      const response: AxiosResponse = await lastValueFrom(this.httpService.get(url));
-      return response.data;
-    } catch (error) {
-      console.error('Error fetching news data:', error);
-      throw new Error('Failed to fetch news data');
-    }
+  async getAllNews(): Promise<News[]> {
+    return this.newsRepository.find();
+  }
+
+  async getNewsByStockSymbol(stockSymbol: string): Promise<News[]> {
+    return this.newsRepository.find({ where: { stockSymbol } });
+  }
+
+  async getNewsById(id: number): Promise<News> {
+    return this.newsRepository.findOne({where:{id:id}});
   }
 }

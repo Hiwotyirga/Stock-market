@@ -7,13 +7,15 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { Role } from './Entity/Role.entity';
 import { AdminRegister } from './Entity/AdminRegister.entity';
-// import { NewService } from './new/new.service';
+
 import { NewModule } from './new/new.module';
-// import { NewController } from './new/new.controller';
-// import { NewService } from './new/new.service';
+// import * as session from 'express-session';
+// import * as passport from 'passport';
 import { CacheModule } from '@nestjs/cache-manager';
-
-
+import { MulterModule } from '@nestjs/platform-express';
+import { join } from 'path';
+import { NewsService } from './new/new.service';
+import { News } from './Entity/news.entity';
 @Module({
   imports: [
     
@@ -27,11 +29,15 @@ import { CacheModule } from '@nestjs/cache-manager';
       entities: [User, Role, AdminRegister],
       synchronize: true,
     }),
-    TypeOrmModule.forFeature([User, Role, AdminRegister]),
+    TypeOrmModule.forFeature([User, Role, AdminRegister, News]),
     AuthModule,
     UsersModule,
-    NewModule
-    
+    NewModule,
+
+    MulterModule.register({
+      dest: './uploads', // Directory where files will be saved
+    }),
+
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -5,7 +5,7 @@ import {
   ManyToMany,
   JoinTable,
 } from 'typeorm';
-import { Role } from './Role.entity';
+
 
 @Entity('admins')
 export class AdminRegister {
@@ -24,7 +24,5 @@ export class AdminRegister {
   @Column({ default: true })
   isActive: boolean;
 
-  @ManyToMany(() => Role, (role) => role.adminRegisters, { eager: true })
-  @JoinTable() // Use JoinTable only in ManyToMany relationships
-  roles: Role[];
+ 
 }
