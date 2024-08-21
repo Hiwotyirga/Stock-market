@@ -18,7 +18,6 @@ import { NewsService } from './new/new.service';
 import { News } from './Entity/news.entity';
 @Module({
   imports: [
-    
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
@@ -37,7 +36,6 @@ import { News } from './Entity/news.entity';
     MulterModule.register({
       dest: './uploads', // Directory where files will be saved
     }),
-
   ],
   controllers: [AppController],
   providers: [AppService],

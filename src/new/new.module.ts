@@ -16,6 +16,5 @@ import { VideoUploadController } from './video-upload/video-upload.controller';
   ],
   providers: [],
   controllers: [NewsController, VideoUploadController],
- 
 })
 export class NewModule {}

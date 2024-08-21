@@ -6,7 +6,6 @@ import {
   JoinTable,
 } from 'typeorm';
 
-
 @Entity('admins')
 export class AdminRegister {
   @PrimaryGeneratedColumn('uuid')
@@ -23,6 +22,4 @@ export class AdminRegister {
 
   @Column({ default: true })
   isActive: boolean;
-
- 
 }

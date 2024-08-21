@@ -9,7 +9,7 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-    
+
     @InjectRepository(AdminRegister) // Corrected this line
     private readonly adminRepository: Repository<AdminRegister>,
   ) {}

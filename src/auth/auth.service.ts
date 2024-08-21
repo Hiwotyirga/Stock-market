@@ -9,7 +9,11 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async signIn(name: string, password: string, session: any): Promise<{ access_token: string }> {
+  async signIn(
+    name: string,
+    password: string,
+    session: any,
+  ): Promise<{ access_token: string }> {
     const user = await this.usersService.findOne(name);
     if (!user) {
       throw new UnauthorizedException('User not found');
@@ -18,7 +22,7 @@ export class AuthService {
       throw new UnauthorizedException('Incorrect password');
     }
     const payload = { sub: user.id, username: user.name };
-    
+
     // Store user details in session
     session.user = user;
 
@@ -27,7 +31,11 @@ export class AuthService {
     };
   }
 
-  async signInAdmin(name: string, password: string, session: any): Promise<{ access_token: string }> {
+  async signInAdmin(
+    name: string,
+    password: string,
+    session: any,
+  ): Promise<{ access_token: string }> {
     const admin = await this.usersService.findOneAdmin(name);
     if (!admin) {
       throw new UnauthorizedException('Admin not found');
@@ -36,7 +44,7 @@ export class AuthService {
       throw new UnauthorizedException('Incorrect password');
     }
     const payload = { sub: admin.id, username: admin.name };
-    
+
     // Store admin details in session
     session.admin = admin;
 

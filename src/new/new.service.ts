@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { News } from 'src/Entity/news.entity';
 import { Repository } from 'typeorm';
 
-
 @Injectable()
 export class NewsService {
   constructor(
@@ -25,6 +24,6 @@ export class NewsService {
   }
 
   async getNewsById(id: number): Promise<News> {
-    return this.newsRepository.findOne({where:{id:id}});
+    return this.newsRepository.findOne({ where: { id: id } });
   }
 }

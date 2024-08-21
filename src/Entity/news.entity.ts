@@ -1,4 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class News {
@@ -21,5 +26,5 @@ export class News {
   createdAt: Date;
 
   @Column({ nullable: true })
-  imageUrl: string;  // New field for the image URL
+  imageUrl: string; // New field for the image URL
 }

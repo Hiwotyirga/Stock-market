@@ -29,7 +29,10 @@ export class AppService {
     return this.userRepository.find();
   }
 
-  async updateUser(userId: string, userUpdateDto: UserCreateDto): Promise<User> {
+  async updateUser(
+    userId: string,
+    userUpdateDto: UserCreateDto,
+  ): Promise<User> {
     const user = await this.userRepository.findOne({ where: { id: userId } });
 
     if (!user) {
@@ -63,7 +66,7 @@ export class AppService {
     // Save the admin entity to the database
     return this.adminRepository.save(admin);
   }
-  
+
   // async createRole(roleCreateDtos: RolesDtos): Promise<Role> {
   //   const role = this.roleRepository.create(roleCreateDtos);
   //   return this.roleRepository.save(role);
@@ -74,7 +77,7 @@ export class AppService {
 
   // }
 
-  async findAdmin(): Promise<AdminRegister[]>{
-    return this.adminRepository.find()
+  async findAdmin(): Promise<AdminRegister[]> {
+    return this.adminRepository.find();
   }
 }

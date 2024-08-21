@@ -1,5 +1,3 @@
-
-export class RolesDtos{
-    name:string;
-
+export class RolesDtos {
+  name: string;
 }

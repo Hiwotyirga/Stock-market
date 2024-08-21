@@ -1,9 +1,4 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  ManyToMany,
-} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany } from 'typeorm';
 import { AdminRegister } from './AdminRegister.entity';
 
 @Entity('roles')
@@ -13,6 +8,4 @@ export class Role {
 
   @Column()
   name: string;
-
- 
 }
