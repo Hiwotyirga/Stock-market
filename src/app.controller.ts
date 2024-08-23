@@ -1,14 +1,21 @@
 // import { Body, Controller, Get, Param, Patch, Post, Put, ParseIntPipe} from '@nestjs/common';
 import { AppService } from './app.service';
 import {
-  Controller,
-  Param,
   Body,
-  Put,
-  ParseIntPipe,
-  Post,
+  Controller,
   Get,
+  Param,
+  Post,
+  Delete,
+  Put,
+  UseInterceptors,
+  HttpException,
+  HttpStatus,
+  Req,
+  Res,
   UseGuards,
+  Query,
+  UploadedFile,
 } from '@nestjs/common';
 import { UserCreateDto } from './Dtos/User/UserCreateDtos';
 import { User } from './Entity/user.entity';
@@ -30,8 +37,8 @@ export class AppController {
   }
 
   @Post('name')
-    @UseGuards(AuthGuard, RolesGuard) // Use both guards
-    @Roles(Role.Admin)
+    @UseGuards(AuthGuard) // Use both guards
+    // @Roles(Role.Admin)
         async createName(@Body() nameDtos: NameDtos): Promise<Nameentitiy> {
           return this.appService.createName(nameDtos);
         }

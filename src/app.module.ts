@@ -18,6 +18,7 @@ import { AuthController } from './auth/auth.controller';
 import { Nameentitiy } from './Entity/name.entity';
 import { RolesGuard } from './Authorization/roles.guard';
 import { APP_GUARD } from '@nestjs/core';
+import { NewsController } from './new/new.controller';
 
 @Module({
   imports: [
@@ -46,7 +47,7 @@ import { APP_GUARD } from '@nestjs/core';
     }),
     ArticlesModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, NewsController],
   providers: [AppService, ArticleService],
 })
 export class AppModule {}
