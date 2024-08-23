@@ -5,6 +5,8 @@ import * as passport from 'passport';
 import { ValidationPipe } from '@nestjs/common';
 import { join } from 'path';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import { RolesGuard } from './Authorization/roles.guard';
+import { Reflector } from '@nestjs/core';
 
 async function bootstrap() {
   // Create the app as a NestExpressApplication to use Express-specific features
@@ -17,6 +19,7 @@ async function bootstrap() {
   });
 
   app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalGuards(new RolesGuard(app.get(Reflector)));
 
   // app.use(
   //   session({

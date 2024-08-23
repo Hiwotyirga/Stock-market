@@ -5,13 +5,13 @@
 // import { InjectRepository } from '@nestjs/typeorm';
 // import { UserCreateDto } from './Dtos/User/UserCreateDtos';
 
-import { Injectable } from "@nestjs/common";
-import { User } from "./Entity/user.entity";
-import { Repository } from "typeorm";
-import { UserCreateDto } from "./Dtos/User/UserCreateDtos";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Nameentitiy } from "./Entity/name.entity";
-import { NameDtos } from "./Dtos/User/nameDtos";
+import { Injectable } from '@nestjs/common';
+import { User } from './Entity/user.entity';
+import { Repository } from 'typeorm';
+import { UserCreateDto } from './Dtos/User/UserCreateDtos';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Nameentitiy } from './Entity/name.entity';
+import { NameDtos } from './Dtos/User/nameDtos';
 
 @Injectable()
 export class AppService {
@@ -19,18 +19,18 @@ export class AppService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     @InjectRepository(Nameentitiy)
-    private readonly nameRepository: Repository<Nameentitiy>
+    private readonly nameRepository: Repository<Nameentitiy>,
   ) {}
 
   async createName(nameDto: NameDtos): Promise<Nameentitiy> {
     try {
-        console.log('Received DTO:', nameDto); // Log the incoming DTO
-        const names = this.nameRepository.create(nameDto);
-        return await this.nameRepository.save(names);
+      console.log('Received DTO:', nameDto); // Log the incoming DTO
+      const names = this.nameRepository.create(nameDto);
+      return await this.nameRepository.save(names);
     } catch (error) {
-        throw new Error(`Failed to create Nameentitiy: ${error.message}`);
+      throw new Error(`Failed to create Nameentitiy: ${error.message}`);
     }
-}
+  }
 
   async createUser(userCreateDto: UserCreateDto): Promise<User> {
     const user = this.userRepository.create(userCreateDto);
@@ -54,8 +54,4 @@ export class AppService {
     Object.assign(user, userUpdateDto);
     return this.userRepository.save(user);
   }
-
-
-  
-
 }

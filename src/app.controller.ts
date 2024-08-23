@@ -16,24 +16,25 @@ import { UserUpdateDto } from './Dtos/User/UserUpdateDtos';
 import { NameDtos } from './Dtos/User/nameDtos';
 import { Nameentitiy } from './Entity/name.entity';
 import { AuthGuard } from './auth/auth.guard';
-
+import { Role } from './Authorization/role.enum';
+import { Roles } from './Authorization/roles.decorator';
+import { RolesGuard } from './Authorization/roles.guard';
 
 @Controller('register')
 export class AppController {
- 
-    constructor(private readonly appService: AppService) {}
-  
-    @Post()
-    async register(@Body() userCreateDto: UserCreateDto): Promise<User> {
-      return this.appService.createUser(userCreateDto);
-    }
+  constructor(private readonly appService: AppService) {}
 
-@Post('name')
-@UseGuards(AuthGuard)
-  async createName(@Body() nameDtos: NameDtos): Promise<Nameentitiy> {
-    return this.appService.createName(nameDtos);
-}
-  
+  @Post()
+  async register(@Body() userCreateDto: UserCreateDto): Promise<User> {
+    return this.appService.createUser(userCreateDto);
+  }
+
+  @Post('name')
+    @UseGuards(AuthGuard, RolesGuard) // Use both guards
+    @Roles(Role.Admin)
+        async createName(@Body() nameDtos: NameDtos): Promise<Nameentitiy> {
+          return this.appService.createName(nameDtos);
+        }
 
   @Get()
   async findAllUsers(): Promise<User[]> {

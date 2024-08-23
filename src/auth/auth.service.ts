@@ -8,7 +8,7 @@ import { Profile } from 'src/Entity/profile.entity';
 export class AuthService {
   constructor(
     private usersService: UsersService,
-    private jwtService: JwtService
+    private jwtService: JwtService,
   ) {}
 
   async signIn(
@@ -19,7 +19,11 @@ export class AuthService {
     if (user?.password !== pass) {
       throw new UnauthorizedException();
     }
-    const payload = { sub: user.id, username: user.name };
+    const payload = {
+      username: user.name,
+      sub: user.id,
+      rolename: user.rolename,
+    };
     return {
       access_token: await this.jwtService.signAsync(payload),
     };

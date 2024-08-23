@@ -13,7 +13,6 @@ export class ArticlesController {
   @Post()
   @UseGuards(AuthGuard)
   async createArticle(@Body() articleDtos: ArticleDtos): Promise<Article> {
-
     return this.articleService.createArticle(articleDtos);
   }
 }

@@ -1,4 +1,3 @@
-import { Role } from 'src/roles/roles.enum';
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm';
 import { Profile } from './profile.entity';
 

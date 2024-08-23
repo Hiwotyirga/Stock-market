@@ -16,9 +16,15 @@ import { Article } from './Entity/Article.entity';
 import { ConfigModule } from '@nestjs/config';
 import { AuthController } from './auth/auth.controller';
 import { Nameentitiy } from './Entity/name.entity';
+import { RolesGuard } from './Authorization/roles.guard';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
+    // {
+    //   providers: APP_GUARD,
+    //   useClass: RolesGuard,
+    // },
     ConfigModule.forRoot({
       isGlobal: true,
     }),
