@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    // "typeRoots": ["./node_modules//@types", "./src"],
     "module": "commonjs",
     "declaration": true,
     "removeComments": true,
@@ -17,5 +18,10 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false
-  }
+  },
+  
+  "include": [
+    "src/**/*.ts", // Include all TypeScript files in the src directory
+    "src/custom.d.ts" // Ensure this file is included
+  ]
 }

@@ -1,17 +1,19 @@
 import {
+  Body,
   Controller,
-  Post,
   Get,
+  Param,
+  Post,
+  Req,
   Delete,
   Put,
-  Param,
-  UploadedFile,
   UseInterceptors,
-  Body,
-  Res,
-  HttpStatus,
   HttpException,
+  HttpStatus,
+  Res,
+  UseGuards,
   Query,
+  UploadedFile,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -19,6 +21,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { extname, join, basename } from 'path';
 import { Response } from 'express';
 import { unlinkSync, existsSync } from 'fs';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('upload')
 export class NewsController {
@@ -31,7 +34,8 @@ export class NewsController {
     };
   } = {};
 
-  @Post('media') // Changed endpoint to reflect that both images and videos are uploaded here
+  @Post('media') 
+  @UseGuards(AuthGuard)
   @UseInterceptors(
     FileInterceptor('file', {
       storage: diskStorage({

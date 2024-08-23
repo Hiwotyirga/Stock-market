@@ -28,4 +28,10 @@ export class AuthService {
       access_token: await this.jwtService.signAsync(payload),
     };
   }
+
+  async logout(userId: string): Promise<{ message: string }> {
+    // Any necessary logic for handling logout
+    // e.g., invalidate JWT, clear cookies, or blacklist token (optional)
+    return { message: 'Successfully logged out' };
+  }
 }
