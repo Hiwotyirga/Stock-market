@@ -8,24 +8,32 @@ import {
   ParseIntPipe,
   Post,
   Get,
+  UseGuards,
 } from '@nestjs/common';
 import { UserCreateDto } from './Dtos/User/UserCreateDtos';
 import { User } from './Entity/user.entity';
 import { UserUpdateDto } from './Dtos/User/UserUpdateDtos';
-import { RolesDtos } from './Dtos/Admin/RolesDtos';
-import { Role } from './Entity/Role.entity';
-import { AdminRegisterCreateDto } from './Dtos/Admin/AdminRegisterCreateDto';
-import { AdminRegister } from './Entity/AdminRegister.entity';
+import { NameDtos } from './Dtos/User/nameDtos';
+import { Nameentitiy } from './Entity/name.entity';
+import { AuthGuard } from './auth/auth.guard';
 
-@Controller()
+
+@Controller('register')
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+ 
+    constructor(private readonly appService: AppService) {}
+  
+    @Post()
+    async register(@Body() userCreateDto: UserCreateDto): Promise<User> {
+      return this.appService.createUser(userCreateDto);
+    }
 
-  @Post()
-  async create(@Body() userCreateDto: UserCreateDto): Promise<User> {
-    const createUser = await this.appService.createUser(userCreateDto);
-    return createUser;
-  }
+@Post('name')
+@UseGuards(AuthGuard)
+  async createName(@Body() nameDtos: NameDtos): Promise<Nameentitiy> {
+    return this.appService.createName(nameDtos);
+}
+  
 
   @Get()
   async findAllUsers(): Promise<User[]> {
@@ -37,23 +45,5 @@ export class AppController {
     @Body() userUpdateDto: UserUpdateDto,
   ) {
     return this.appService.updateUser(userId, userUpdateDto);
-  }
-  // @Post('role')
-  // async RoleCreate(@Body() roleDtos: RolesDtos): Promise<Role> {
-  //   return this.appService.createRole(roleDtos);
-  // }
-  @Post('/admin')
-  async createAdmin(
-    @Body() adminRegisterDtos: AdminRegisterCreateDto,
-  ): Promise<AdminRegister> {
-    return this.appService.createAdmin(adminRegisterDtos);
-  }
-  // @Get('role')
-  // async findRole(): Promise<Role[]>{
-  //   return this.appService.findRole()
-  // }
-  @Get('adminlist')
-  async findAdmin(): Promise<AdminRegister[]> {
-    return this.appService.findAdmin();
   }
 }

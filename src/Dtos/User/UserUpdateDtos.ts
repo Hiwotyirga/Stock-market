@@ -1,4 +1,5 @@
 import { IsString } from 'class-validator';
+import { Role } from 'src/roles/roles.enum';
 
 export class UserUpdateDto {
   @IsString()
@@ -9,4 +10,6 @@ export class UserUpdateDto {
 
   @IsString()
   password: string;
+  @IsString()
+  rolename: Role;
 }

@@ -18,17 +18,16 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe());
 
-  app.use(
-    session({
-      secret: process.env.SESSION_SECRET || 'my-super-secret-key-12345', // Use the generated secret key
-      resave: false,
-      saveUninitialized: false,
-      cookie: { maxAge: 3600000 }, // 1 hour
-    }),
-  );
-
-  app.use(passport.initialize());
-  app.use(passport.session());
+  // app.use(
+  //   session({
+  //     secret: 'your-secret-key',
+  //     resave: false,
+  //     saveUninitialized: false,
+  //     cookie: { maxAge: 3600000 }, // 1 hour
+  //   }),
+  // );
+  // app.use(passport.initialize());
+  // app.use(passport.session());
 
   // UseStaticAssets should be placed before app.listen
   app.useStaticAssets(join(__dirname, '..', 'uploads'));

@@ -1,29 +1,50 @@
+// src/news/file.service.ts
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { News } from 'src/Entity/news.entity';
-import { Repository } from 'typeorm';
 
 @Injectable()
 export class NewsService {
-  constructor(
-    @InjectRepository(News)
-    private readonly newsRepository: Repository<News>,
-  ) {}
+  private fileMetadata: {
+    [key: string]: { description: string; content: string; postTime: string };
+  } = {};
 
-  async createNews(newsData: Partial<News>): Promise<News> {
-    const news = this.newsRepository.create(newsData);
-    return this.newsRepository.save(news);
+  addFile(
+    filename: string,
+    metadata: { description: string; content: string; postTime: string },
+  ) {
+    this.fileMetadata[filename] = metadata;
   }
 
-  async getAllNews(): Promise<News[]> {
-    return this.newsRepository.find();
+  getFiles(skip: number, limit: number) {
+    const files = Object.keys(this.fileMetadata)
+      .slice(skip, skip + limit)
+      .map((filename) => ({
+        filename,
+        ...this.fileMetadata[filename],
+      }));
+
+    return {
+      files,
+      total: Object.keys(this.fileMetadata).length,
+    };
   }
 
-  async getNewsByStockSymbol(stockSymbol: string): Promise<News[]> {
-    return this.newsRepository.find({ where: { stockSymbol } });
+  getMetadata(filename: string) {
+    return this.fileMetadata[filename];
   }
 
-  async getNewsById(id: number): Promise<News> {
-    return this.newsRepository.findOne({ where: { id: id } });
+  updateMetadata(
+    filename: string,
+    metadata: { description: string; content: string; postTime: string },
+  ) {
+    if (this.fileMetadata[filename]) {
+      this.fileMetadata[filename] = {
+        ...this.fileMetadata[filename],
+        ...metadata,
+      };
+    }
+  }
+
+  deleteFile(filename: string) {
+    delete this.fileMetadata[filename];
   }
 }
