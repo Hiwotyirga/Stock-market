@@ -1,11 +1,11 @@
-import { Request as ExpressRequest } from 'express';
+// import { Request as ExpressRequest } from 'express';
 
-declare global {
-    namespace Express {
-        interface Request extends Request {
-            headers: {
-                authorization?: string;
-            };
-        }
-    }
-}
+// declare global {
+//     namespace Express {
+//         interface Request extends Request {
+//             headers: {
+//                 authorization?: string;
+//             };
+//         }
+//     }
+// }
