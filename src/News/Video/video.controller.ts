@@ -1,4 +1,4 @@
-import { Controller, Post, UseInterceptors, UploadedFile, Body, Param, Get, NotFoundException } from '@nestjs/common';
+import { Controller, Post, UseInterceptors, UploadedFile, Body, Param, Get, NotFoundException, Delete, Put, Query } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { VideoService } from './video.service';
 import { VideoEntity } from 'src/Entity/VideoEntity.entity';
@@ -25,9 +25,13 @@ export class VideoController {
   }
 
   @Get('upload/video')
-  async findAllFile(): Promise<VideoEntity[]> {
-    return this.videoService.findAllImage();
+  async findAllVideo(
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 10,
+  ): Promise<{ items: VideoEntity[], total: number }> {
+    return this.videoService.findAllVideo(page, limit);
   }
+  
 
   @Get('upload/video/:id')
   async findOneImage(@Param('id') id: number): Promise<VideoEntity> {
@@ -36,5 +40,19 @@ export class VideoController {
       throw new NotFoundException(`File with ID ${id} not found`);
     }
     return file;
+  }
+  @Put('upload/video/:id')
+  @UseGuards(AuthGuard)
+  async updateFile(
+    @Param('id') id: number,
+    @Body('description') description: string,
+    @Body('content') content: string,
+  ): Promise<VideoEntity> {
+    return this.videoService.updateFile(id, description, content);
+  }
+  @Delete('upload/video/:id')
+  @UseGuards(AuthGuard)
+  async deleteFile(@Param('id') id: number): Promise<void> {
+    await this.videoService.deleteFile(id);
   }
 }

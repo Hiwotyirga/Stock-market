@@ -31,15 +31,51 @@ export class ImageService {
 
     return fileInfo;
   }
-  async findAllImage(): Promise<FileEntity[]> {
-    return this.fileRepository.find(); 
-  }
+  // In your service file
+async findAllImage(page: number = 1, limit: number = 10): Promise<FileEntity[]> {
+  const [result, total] = await this.fileRepository.findAndCount({
+    skip: (page - 1) * limit,
+    take: limit,
+  });
+  return result;
+}
 
-  async findOneImage(id: number): Promise<FileEntity> {
-    const fileFind = await this.fileRepository.findOne({ where: { id } });
-    if (!fileFind) {
+
+async findOneImage(id: number): Promise<FileEntity> {
+  const fileFind = await this.fileRepository.findOne({ where: { id } });
+  if (!fileFind) {
+    throw new NotFoundException(`File with ID ${id} not found`);
+  }
+  return fileFind;
+}
+
+  async updateFile(
+    id: number,
+    describe: string,
+    content: string,
+  ): Promise<Partial<FileEntity>> {
+    console.log(`Updating file with ID: ${id}, describe: ${describe}, content: ${content}`);
+  
+    const file = await this.fileRepository.preload({
+      id,
+      describe,
+      content,
+    });
+  
+    if (!file) {
+      console.error(`File with ID ${id} not found`);
       throw new NotFoundException(`File with ID ${id} not found`);
     }
-    return fileFind;
+  
+    return this.fileRepository.save(file);
+  }
+  
+
+  async deleteFile(id: number): Promise<void> {
+    const result = await this.fileRepository.delete(id);
+
+    if (result.affected === 0) {
+      throw new NotFoundException(`File with ID ${id} not found`);
+    }
   }
 }

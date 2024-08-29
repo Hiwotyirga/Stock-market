@@ -13,7 +13,7 @@ import { UsersModule } from 'src/users/users.module';
   imports: [
     MulterModule.register({
       storage: diskStorage({
-        destination: './uploads', // Directory to save files
+        destination: 'src/Image', // Directory to save files
         filename: (req, file, cb) => {
           const ext = file.originalname.split('.').pop();
           const filename = `${Date.now()}.${ext}`;

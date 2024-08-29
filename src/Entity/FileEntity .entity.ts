@@ -14,7 +14,7 @@ export class FileEntity {
   @Column()
   size: number;
 
-  @Column()
+  @Column({type: 'varchar', length: 10000 })
   describe: string;
 
   @Column()

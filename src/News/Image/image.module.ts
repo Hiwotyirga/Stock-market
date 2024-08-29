@@ -7,12 +7,14 @@ import { FileEntity } from 'src/Entity/FileEntity .entity';
 import { TypeOrmModule } from '@nestjs/typeorm'; // Import TypeOrmModule
 import { UsersModule } from 'src/users/users.module';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { join } from 'path';
+
 
 @Module({
   imports: [
     MulterModule.register({
       storage: diskStorage({
-        destination: './uploads', // Directory to save files
+        destination: join(__dirname, '..', '..', '..', 'src', 'Image'), // Save files to 'src/Image'
         filename: (req, file, cb) => {
           const ext = file.originalname.split('.').pop();
           const filename = `${Date.now()}.${ext}`;

@@ -14,7 +14,7 @@ export class VideoEntity {
   @Column()
   size: number;
 
-  @Column()
+  @Column({type: 'varchar', length: 10000 })
   description: string;
 
   @Column()

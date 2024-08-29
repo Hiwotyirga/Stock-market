@@ -22,7 +22,7 @@ export class VideoService {
       size: file.size,
     });
 
-    if (file.size > 1 * 1024 * 1024 * 1024) { // 1 GB limit
+    if (file.size > 1 * 1024 * 1024 * 1024) { 
       throw new BadRequestException('File size exceeds limit');
     }
 
@@ -38,9 +38,15 @@ export class VideoService {
     return videoInfo;
   }
 
-  async findAllImage(): Promise<VideoEntity[]> {
-    return this.videoRepository.find(); // Await is not needed here as find() returns a Promise
-  }
+  // In your service file
+async findAllVideo(page: number = 1, limit: number = 10): Promise<{ items: VideoEntity[], total: number }> {
+  const [items, total] = await this.videoRepository.findAndCount({
+    skip: (page - 1) * limit,
+    take: limit,
+  });
+  return { items, total };
+}
+
 
   async findOneImage(id: number): Promise<VideoEntity> {
     const fileFind = await this.videoRepository.findOne({ where: { id } });
@@ -48,5 +54,30 @@ export class VideoService {
       throw new NotFoundException(`File with ID ${id} not found`);
     }
     return fileFind;
+  }
+  async updateFile(
+    id: number,
+    description: string,
+    content: string,
+  ): Promise<VideoEntity> {
+    const video = await this.videoRepository.preload({
+      id,
+      description,
+      content,
+    });
+
+    if (!video) {
+      throw new NotFoundException(`Video with ID ${id} not found`);
+    }
+
+    return this.videoRepository.save(video);
+  }
+
+  async deleteFile(id: number): Promise<void> {
+    const result = await this.videoRepository.delete(id);
+
+    if (result.affected === 0) {
+      throw new NotFoundException(`File with ID ${id} not found`);
+    }
   }
 }
