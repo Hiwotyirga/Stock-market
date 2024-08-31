@@ -21,6 +21,10 @@ import { FileEntity } from './Entity/FileEntity .entity';
 import { ImageModule } from './news/image/image.module';
 import { VideoModule } from './news/video/video.module';
 import { VideoEntity } from './Entity/VideoEntity.entity';
+import { MediaModule } from './news/media/media.module';
+import { MediaEntity } from './Entity/Media.enetity';
+import { StockModule } from './stock/stock.module';
+import { MarketModule } from './market/market.module';
 
 
 @Module({
@@ -36,10 +40,10 @@ import { VideoEntity } from './Entity/VideoEntity.entity';
       username: 'root',
       password: 'selam',
       database: 'StockMarket',
-      entities: [User, Profile, Article, Nameentitiy, FileEntity, VideoEntity],
+      entities: [User, Profile, Article, Nameentitiy, FileEntity, VideoEntity, MediaEntity],
       synchronize: true,
     }),
-    TypeOrmModule.forFeature([User, Profile, Article, Nameentitiy, FileEntity, VideoEntity]),
+    TypeOrmModule.forFeature([User, Profile, Article, Nameentitiy, FileEntity, VideoEntity, MediaEntity]),
     AuthModule,
     UsersModule,
   
@@ -49,6 +53,9 @@ import { VideoEntity } from './Entity/VideoEntity.entity';
     ArticlesModule,
     ImageModule,
     VideoModule,
+    MediaModule,
+    StockModule,
+    MarketModule,
   ],
   controllers: [AppController],
   providers: [AppService, ArticleService],
