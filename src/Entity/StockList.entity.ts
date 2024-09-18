@@ -5,9 +5,6 @@ export class StockDataList extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ type: 'varchar', length: 255 })
-  metadata: string;
-
   @Column({ type: 'timestamp' })
   lastUpdated: Date;
 

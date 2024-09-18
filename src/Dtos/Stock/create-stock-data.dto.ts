@@ -2,8 +2,7 @@ import { IsString, IsOptional, IsArray, ValidateNested, IsObject } from 'class-v
 import { Type } from 'class-transformer';
 
 export class StockDataDto {
-  @IsString()
-  metadata: string;
+
 
   @IsOptional()
   @Type(() => Date)

@@ -12,7 +12,7 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   app.enableCors({
-    origin: 'http://localhost:3000', 
+    origin: 'http://localhost:3001', 
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
    });
@@ -20,7 +20,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   // app.useGlobalGuards(new RolesGuard(app.get(Reflector)));
   app.useStaticAssets(join(__dirname, '..', 'src', 'Image'), {
-    prefix: '/images/', // URL prefix for serving static files
+    prefix: '/images/',
   });
 
   await app.listen(8080);
