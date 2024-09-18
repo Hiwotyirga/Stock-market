@@ -1,7 +1,7 @@
 import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { MediaEntity } from 'src/Entity/Media.enetity';
+import { MediaEntity } from 'src/Entity/Media.entity';
 
 @Injectable()
 export class MediaService {
@@ -39,16 +39,19 @@ export class MediaService {
     return { items, total };
   }
 
-  async findOneMedia(id: number): Promise<MediaEntity> {
+  async findOneMedia(id: string): Promise<{ media: MediaEntity, imageUrl: string }> {
     const media = await this.mediaRepository.findOne({ where: { id } });
     if (!media) {
       throw new NotFoundException(`Media with ID ${id} not found`);
     }
-    return media;
+
+    // Construct the URL for accessing the image
+    const imageUrl = `http://localhost:3000/images/${media.filename}`;
+    return { media, imageUrl };
   }
 
   async updateFile(
-    id: number,
+    id: string,
     description: string,
     content: string,
   ): Promise<Partial<MediaEntity>> {
@@ -65,11 +68,14 @@ export class MediaService {
     return this.mediaRepository.save(media);
   }
 
-  async deleteFile(id: number): Promise<void> {
+  async deleteFile(id: string): Promise<void> {
     const result = await this.mediaRepository.delete(id);
 
     if (result.affected === 0) {
       throw new NotFoundException(`Media with ID ${id} not found`);
     }
+  }
+  async countMedia(): Promise<number> {
+    return this.mediaRepository.count();
   }
 }

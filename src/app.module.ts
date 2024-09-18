@@ -9,22 +9,21 @@ import { UsersModule } from './users/users.module';
 import { CacheModule } from '@nestjs/cache-manager';
 import { MulterModule } from '@nestjs/platform-express';
 import { join } from 'path';
-import { Profile } from './Entity/profile.entity';
-import { ArticlesModule } from './articles/articles.module';
-import { ArticleService } from './articles/articles.service';
-import { Article } from './Entity/Article.entity';
 import { ConfigModule } from '@nestjs/config';
 import { AuthController } from './auth/auth.controller';
-import { Nameentitiy } from './Entity/name.entity';
+
 import { APP_GUARD } from '@nestjs/core';
-import { FileEntity } from './Entity/FileEntity .entity';
-import { ImageModule } from './news/image/image.module';
-import { VideoModule } from './news/video/video.module';
-import { VideoEntity } from './Entity/VideoEntity.entity';
+
+
 import { MediaModule } from './news/media/media.module';
-import { MediaEntity } from './Entity/Media.enetity';
-import { StockModule } from './stock/stock.module';
+import { MediaEntity } from './Entity/Media.entity';
+// import { StockModule } from './stock/stock.module';
+import { StockModule } from './market-local/market-local.module';
 import { MarketModule } from './market/market.module';
+// import { MarketLocalModule
+import { Stock } from './Entity/stock.entity';
+import { StockMarketModule } from './stock/stock.module';
+import { StockDataList } from './Entity/StockList.entity';
 
 
 @Module({
@@ -40,24 +39,26 @@ import { MarketModule } from './market/market.module';
       username: 'root',
       password: 'selam',
       database: 'StockMarket',
-      entities: [User, Profile, Article, Nameentitiy, FileEntity, VideoEntity, MediaEntity],
+      entities: [User, MediaEntity, Stock , StockDataList],
       synchronize: true,
     }),
-    TypeOrmModule.forFeature([User, Profile, Article, Nameentitiy, FileEntity, VideoEntity, MediaEntity]),
+    TypeOrmModule.forFeature([User, MediaEntity, Stock, StockDataList]),
     AuthModule,
     UsersModule,
   
     MulterModule.register({
       dest: './uploads',
     }),
-    ArticlesModule,
-    ImageModule,
-    VideoModule,
+   
+
     MediaModule,
+    StockMarketModule,
     StockModule,
     MarketModule,
+    StockModule,
+    // AdminModule,
   ],
   controllers: [AppController],
-  providers: [AppService, ArticleService],
+  providers: [AppService],
 })
 export class AppModule {}

@@ -1,22 +1,22 @@
-import { Injectable } from '@nestjs/common';
-import axios from 'axios';
+import { Injectable} from '@nestjs/common';
+import { AxiosResponse } from 'axios';
+import { HttpService } from '@nestjs/axios';
 
 @Injectable()
-export class StockService {
-  private readonly finnhubApiKey = 'cr9ffl1r01qkt06p5g2gcr9ffl1r01qkt06p5g30'; // Replace with your actual Finnhub API key
+export class StockMarketService {
+  private readonly apiKey = '5AG9CMOFM0DU3T38';
+  private readonly apiUrl = 'https://www.alphavantage.co/query?function=TOP_GAINERS_LOSERS';
 
-  async getRealTimeStockPrice(symbol: string): Promise<any> {
+  constructor(private readonly httpService: HttpService) {}
+
+  async getStockData(): Promise<any> {
     try {
-      const response = await axios.get(`https://finnhub.io/api/v1/quote`, {
-        params: {
-          symbol,
-          token: this.finnhubApiKey,
-        },
-      });
-      return response.data; // Finnhub returns price data directly
+      const response: AxiosResponse = await this.httpService
+        .get(`${this.apiUrl}&apikey=${this.apiKey}`)
+        .toPromise();
+      return response.data;
     } catch (error) {
-      console.error('Error fetching stock price:', error.message);
-      throw new Error('Error fetching stock price');
+      throw new Error('Error fetching stock market data');
     }
   }
 }

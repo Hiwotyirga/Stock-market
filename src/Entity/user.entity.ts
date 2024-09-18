@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm';
-import { Profile } from './profile.entity';
+
 
 @Entity('users')
 export class User {
@@ -9,14 +9,15 @@ export class User {
   @Column({ type: 'varchar', unique: true })
   name: string;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', nullable: true })
   password: string;
+  
   @Column()
   email: string;
 
-  @Column({ type: 'varchar', default: 'admin' }) // Default value for rolename
-  rolename: string;
+  @Column({ type: 'varchar', nullable: true, default: 'Admin'})
+  role: string;
 
-  @OneToOne(() => Profile, (profile) => profile.user)
-  profile: Profile;
+  // @OneToOne(() => Profile, (profile) => profile.user)
+  // profile: Profile;
 }

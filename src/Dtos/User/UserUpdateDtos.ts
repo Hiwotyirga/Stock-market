@@ -11,5 +11,5 @@ export class UserUpdateDto {
   @IsString()
   password: string;
   @IsString()
-  rolename: string;
+  role: string;
 }

@@ -6,12 +6,12 @@ import { AuthController } from './auth.controller';
 import { jwtConstants } from './constants';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/Entity/user.entity';
-import { Profile } from 'src/Entity/profile.entity';
+// import { Profile } from 'src/Entity/profile.entity';
 import { AuthGuard } from './auth.guard';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, Profile]),
+    TypeOrmModule.forFeature([User]),
     UsersModule,
     JwtModule.register({
       global: true,

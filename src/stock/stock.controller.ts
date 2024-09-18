@@ -1,13 +1,12 @@
-import { Controller, Get, Query } from '@nestjs/common';
-import { StockGateway } from './stock.gateway';
+import { Controller, Get } from '@nestjs/common';
+import { StockMarketService } from './stock.service';
 
-@Controller('stock')
-export class StockController {
-  constructor(private stockGateway: StockGateway) {}
+@Controller('stock-market')
+export class StockMarketController {
+  constructor(private readonly stockMarketService: StockMarketService) {}
 
-  @Get('real-time')
-  getRealTimeStock(@Query('symbol') symbol: string) {
-    this.stockGateway.sendRealTimeUpdates(symbol);
-    return { message: `Real-time updates for ${symbol} initiated` };
+  @Get('stock/list')
+  async getStockMarketData() {
+    return this.stockMarketService.getStockData();
   }
 }

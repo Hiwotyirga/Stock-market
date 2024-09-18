@@ -1,10 +1,9 @@
 import { Controller, Post, UseInterceptors, UploadedFile, Body, Param, Get, Put, Delete, Query, Res } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { MediaService } from './media.service';
-import { MediaEntity } from 'src/Entity/Media.enetity';
+import { MediaEntity } from 'src/Entity/Media.entity';
 import { Response } from 'express';
 import { join } from 'path';
-import { createReadStream } from 'fs';
 
 @Controller('media')
 export class MediaController {
@@ -20,12 +19,6 @@ export class MediaController {
     return this.mediaService.handleFileUpload(file, description, content);
   }
 
-  @Get('download/:filename')
-  async downloadFile(@Param('filename') filename: string, @Res() res: Response) {
-    const filePath = join(__dirname, '..', 'uploads', filename);
-    res.sendFile(filePath);
-  }
-
   @Get('files')
   async findAllMedia(
     @Query('page') page: number = 1,
@@ -35,22 +28,32 @@ export class MediaController {
   }
 
   @Get('file/:id')
-  async findOneMedia(@Param('id') id: number): Promise<MediaEntity> {
+  async findOneMedia(@Param('id') id: string): Promise<{ media: MediaEntity, imageUrl: string }> {
     return this.mediaService.findOneMedia(id);
   }
 
   @Put('file/:id')
-    async updateFile(@Param('id') id: number,
+  async updateFile(
+    @Param('id') id: string,
     @Body('description') description: string,
     @Body('content') content: string,
-    ): Promise<Partial<MediaEntity>> {
-    console.log(`Updating media with ID: ${id}`); // Debugging log
+  ): Promise<Partial<MediaEntity>> {
     return this.mediaService.updateFile(id, description, content);
-    }
-
+  }
 
   @Delete('file/:id')
-  async deleteFile(@Param('id') id: number): Promise<void> {
+  async deleteFile(@Param('id') id: string): Promise<void> {
     await this.mediaService.deleteFile(id);
+  }
+
+  @Get('download/:filename')
+  async downloadFile(@Param('filename') filename: string, @Res() res: Response) {
+    const filePath = join(__dirname, '..', '..', 'src', 'Image', filename);
+    res.sendFile(filePath);
+  }
+  @Get('count')
+  async getMediaCount(): Promise<{ count: number }> {
+    const count = await this.mediaService.countMedia();
+    return { count };
   }
 }

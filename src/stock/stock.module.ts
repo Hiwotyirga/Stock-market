@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
-import { StockController } from './stock.controller';
-import { StockService } from './stock.service';
-import { StockGateway } from './stock.gateway';
+import { StockMarketService } from './stock.service';
+import { HttpModule } from '@nestjs/axios';
+import { StockMarketController } from './stock.controller';
 
 @Module({
-  controllers: [StockController],
-  providers: [StockService, StockGateway],
+  imports: [HttpModule],
+  providers: [StockMarketService],
+  controllers: [StockMarketController],
 })
-export class StockModule {}
+export class StockMarketModule {}
