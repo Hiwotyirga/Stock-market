@@ -13,17 +13,13 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthController } from './auth/auth.controller';
 
 import { APP_GUARD } from '@nestjs/core';
-
-
 import { MediaModule } from './news/media/media.module';
 import { MediaEntity } from './Entity/Media.entity';
-// import { StockModule } from './stock/stock.module';
 import { StockModule } from './market-local/market-local.module';
-import { MarketModule } from './market/market.module';
-// import { MarketLocalModule
 import { Stock } from './Entity/stock.entity';
 import { StockMarketModule } from './stock/stock.module';
 import { StockDataList } from './Entity/StockList.entity';
+import { MarketModule } from './market/market.module';
 
 
 @Module({
@@ -54,8 +50,9 @@ import { StockDataList } from './Entity/StockList.entity';
     MediaModule,
     StockMarketModule,
     StockModule,
-    MarketModule,
+    // MarketModule,
     StockModule,
+    MarketModule,
     // AdminModule,
   ],
   controllers: [AppController],

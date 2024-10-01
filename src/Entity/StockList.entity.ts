@@ -9,29 +9,29 @@ export class StockDataList extends BaseEntity {
   lastUpdated: Date;
 
   @Column('json', { nullable: true })
-  topGainers: {
+  top_gainers: Array<{
     ticker: string;
     price: string;
-    changeAmount: string;
-    changePercentage: string;
+    change_amount: string;
+    change_percentage: string;
     volume: string;
-  }[];
+  }>;
 
   @Column('json', { nullable: true })
-  topLosers: {
+  top_losers: Array<{
     ticker: string;
     price: string;
-    changeAmount: string;
-    changePercentage: string;
+    change_amount: string;
+    change_percentage: string;
     volume: string;
-  }[];
+  }>;
 
   @Column('json', { nullable: true })
-  mostActivelyTraded: {
+  most_actively_traded: Array<{
     ticker: string;
     price: string;
-    changeAmount: string;
-    changePercentage: string;
+    change_amount: string;
+    change_percentage: string;
     volume: string;
-  }[];
+  }>;
 }

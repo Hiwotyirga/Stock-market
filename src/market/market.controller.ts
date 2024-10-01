@@ -1,27 +1,12 @@
-// import { Controller, Get } from '@nestjs/common';
-// import { MarketService } from './market.service';
-// import { CombinedStockData } from 'src/Dtos/Stock/combined-stock-data.dto';
-
-// @Controller('stock-market')
-// export class MarketController {
-//   constructor(private readonly marketService: MarketService) {}
-
-//   @Get('stocks')
-//   async getAllStockData(): Promise<CombinedStockData[]> {
-//     return this.marketService.getCombinedMarketData();
-//   }
-// }
-
-
 import { Controller, Get } from '@nestjs/common';
 import { MarketService } from './market.service';
 
-@Controller('stock-market')
+@Controller('market')
 export class MarketController {
-  constructor(private readonly stockMarketService: MarketService) {}
+  constructor(private readonly stockService: MarketService) {}
 
-  @Get('stock/list')
-  async getStockList() {
-    return this.stockMarketService.getStockList();
+  @Get('stocks')
+  async getMergedStockData(): Promise<any> {
+    return this.stockService.getMergedStockData();
   }
 }

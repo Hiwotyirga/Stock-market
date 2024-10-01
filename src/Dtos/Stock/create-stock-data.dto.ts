@@ -1,9 +1,24 @@
-import { IsString, IsOptional, IsArray, ValidateNested, IsObject } from 'class-validator';
+import { IsString, IsOptional, IsArray, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 
+class StockInfoDto {
+  @IsString()
+  ticker: string;
+
+  @IsString()
+  price: string;
+
+  @IsString()
+  change_amount: string;
+
+  @IsString()
+  change_percentage: string;
+
+  @IsString()
+  volume: string;
+}
+
 export class StockDataDto {
-
-
   @IsOptional()
   @Type(() => Date)
   lastUpdated?: Date;
@@ -11,36 +26,18 @@ export class StockDataDto {
   @IsOptional()
   @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => Object)
-  topGainers?: {
-    ticker: string;
-    price: string;
-    changeAmount: string;
-    changePercentage: string;
-    volume: string;
-  }[];
+  @Type(() => StockInfoDto)
+  top_gainers?: StockInfoDto[];
 
   @IsOptional()
   @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => Object)
-  topLosers?: {
-    ticker: string;
-    price: string;
-    changeAmount: string;
-    changePercentage: string;
-    volume: string;
-  }[];
+  @Type(() => StockInfoDto)
+  top_losers?: StockInfoDto[];
 
   @IsOptional()
   @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => Object)
-  mostActivelyTraded?: {
-    ticker: string;
-    price: string;
-    changeAmount: string;
-    changePercentage: string;
-    volume: string;
-  }[];
+  @Type(() => StockInfoDto)
+  most_actively_traded?: StockInfoDto[];
 }

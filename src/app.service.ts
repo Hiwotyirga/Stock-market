@@ -1,4 +1,3 @@
-
 import { Injectable } from '@nestjs/common';
 import { User } from './Entity/user.entity';
 import { Repository } from 'typeorm';
@@ -31,15 +30,14 @@ export class AppService {
 
   async updateUser(
     userId: string,
-    userUpdateDto: Partial<UserCreateDto> // Use Partial to allow selective updates
+    userUpdateDto: Partial<UserCreateDto> 
   ): Promise<Partial<User>> {
     const user = await this.userRepository.findOne({ where: { id: userId } });
   
     if (!user) {
-      throw new Error('User not found'); // Handle the case where the user is not found
+      throw new Error('User not found'); 
     }
   
-    // Iterate over the fields in userUpdateDto and update only the fields that exist
     Object.keys(userUpdateDto).forEach((key) => {
       if (userUpdateDto[key] !== undefined && userUpdateDto[key] !== null) {
         user[key] = userUpdateDto[key];
