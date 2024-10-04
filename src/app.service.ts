@@ -4,6 +4,10 @@ import { Repository } from 'typeorm';
 import { UserCreateDto } from './Dtos/User/UserCreateDto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { NotFoundException } from '@nestjs/common';
+import { Roles } from './Authorization/roles.decorator';
+import { Role } from './Authorization/role.enum';
+import { RoleGuard } from './Authorization/roles.guard';
+import { UsersModule } from './users/users.module';
 
 @Injectable()
 export class AppService {
@@ -26,6 +30,15 @@ export class AppService {
       return users;
      
   }
+
+  async findOne(userId: string): Promise<User> {
+    const user = await this.userRepository.findOne({ where: { id: userId } });
+    if (!user) {
+      throw new NotFoundException(`User with ID ${userId} not found`);
+    }
+    return user; 
+  }
+  
 
 
   async updateUser(

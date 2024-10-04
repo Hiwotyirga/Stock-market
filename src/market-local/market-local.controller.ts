@@ -16,6 +16,10 @@ export class StockController {
   async createStockData(@Body() createStockDataDto: StockDataDto): Promise<StockDataList> {
     return this.stockService.createStockData(createStockDataDto);
   }
+ @Get('stocks/:id')
+  async getOneStockData(@Param('id') id:string): Promise<StockDataList>{
+    return this.stockService.getOneStockData(id)
+  }
 
   @Put('stocks/:id')
   async updateStockData(

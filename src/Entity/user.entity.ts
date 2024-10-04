@@ -1,5 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm';
-
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Watchlist } from './WatchlistItem.entity';
 
 @Entity('users')
 export class User {
@@ -11,13 +11,13 @@ export class User {
 
   @Column({ type: 'varchar', nullable: true })
   password: string;
-  
+
   @Column()
   email: string;
 
-  @Column({ type: 'varchar', nullable: true, default: 'Admin'})
+  @Column({ type: 'varchar', nullable: true, default: 'User' })
   role: string;
 
-  // @OneToOne(() => Profile, (profile) => profile.user)
-  // profile: Profile;
+  @OneToMany(() => Watchlist, (watchlist) => watchlist.user)
+  watchlist: Watchlist[];
 }

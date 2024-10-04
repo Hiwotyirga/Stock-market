@@ -1,8 +1,6 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { UsersService } from '../users/users.service';
-import { JwtService } from '@nestjs/jwt';
-import { User } from 'src/Entity/user.entity';
-
+import { Injectable, UnauthorizedException } from "@nestjs/common";
+import { JwtService } from "@nestjs/jwt";
+import { UsersService } from "src/users/users.service";
 
 @Injectable()
 export class AuthService {
@@ -14,24 +12,38 @@ export class AuthService {
   async signIn(
     username: string,
     pass: string,
-  ): Promise<{ access_token: string }> {
+  ): Promise<{ access_token: string; role: string }> {
     const user = await this.usersService.findOne(username);
-    if (user?.password !== pass) {
-      throw new UnauthorizedException();
+    
+    console.log("User retrieved:", user); // Check the retrieved user
+    
+    if (!user) {
+      console.log(`No user found with username: ${username}`);
+      throw new UnauthorizedException('Invalid username or password');
     }
+  
+    if (user.password !== pass) {
+      console.log(`Password mismatch for user: ${username}`);
+      throw new UnauthorizedException('Invalid username or password');
+    }
+  
+    console.log("Role before signing token:", user.role);
+    
     const payload = {
       username: user.name,
       sub: user.id,
-      rolename: user.role,
+      role: user.role,
     };
+    
     return {
       access_token: await this.jwtService.signAsync(payload),
+      role: user.role,
     };
   }
+  
 
   async logout(userId: string): Promise<{ message: string }> {
-    // Any necessary logic for handling logout
-    // e.g., invalidate JWT, clear cookies, or blacklist token (optional)
+    // Any logic needed for logout
     return { message: 'Successfully logged out' };
   }
 }

@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany } from 'typeorm';
+import { Trade } from './trade.entity';
 
 @Entity('stock_data')
 export class StockDataList extends BaseEntity {
@@ -34,4 +35,6 @@ export class StockDataList extends BaseEntity {
     change_percentage: string;
     volume: string;
   }>;
+  @OneToMany(() => Trade, (trade) => trade.stock)
+  trades: Trade[];
 }

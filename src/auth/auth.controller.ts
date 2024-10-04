@@ -11,10 +11,13 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @HttpCode(HttpStatus.OK)
-  @Post('login')
-  signIn(@Body() signInDto: Record<string, any>) {
-    return this.authService.signIn(signInDto.username, signInDto.password);
+
+
+@Post('login')
+  async login(@Body() body: { username: string; password: string }) {
+    return this.authService.signIn(body.username, body.password);
   }
+
 
   @UseGuards(AuthGuard)
   @Get('profile')

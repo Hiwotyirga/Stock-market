@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Watchlist } from './WatchlistItem.entity';
 
 @Entity('media')
 export class MediaEntity {
@@ -15,8 +16,11 @@ export class MediaEntity {
   content: string;
 
   @Column()
-  mimetype: string; // To store MIME type (e.g., 'image/jpeg', 'video/mp4')
+  mimetype: string;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   postTime: Date;
+
+  @OneToMany(() => Watchlist, (watchlist) => watchlist.media)
+  watchlist: Watchlist[];
 }

@@ -11,20 +11,22 @@ import { MulterModule } from '@nestjs/platform-express';
 import { join } from 'path';
 import { ConfigModule } from '@nestjs/config';
 import { AuthController } from './auth/auth.controller';
-
 import { APP_GUARD } from '@nestjs/core';
 import { MediaModule } from './news/media/media.module';
 import { MediaEntity } from './Entity/Media.entity';
 import { StockModule } from './market-local/market-local.module';
 import { Stock } from './Entity/stock.entity';
-import { StockMarketModule } from './stock/stock.module';
+// import { StockMarketModule } from './stock/stock.module';
 import { StockDataList } from './Entity/StockList.entity';
-import { MarketModule } from './market/market.module';
-
+// import { MarketModule } from './market/market.module';
+import { WatchlistModule } from './watchlist/watchlist.module';
+import { WatchlistItem } from './Entity/WatchlistItem.entity';
+import { TransactionModule } from './transaction/transaction.module';
+import { TransactionData } from './Entity/TransactionData.enety';
+import { Trade } from './Entity/trade.entity';
 
 @Module({
-  imports: [
-  
+  imports: [  
     ConfigModule.forRoot({
       isGlobal: true,
     }),
@@ -35,25 +37,23 @@ import { MarketModule } from './market/market.module';
       username: 'root',
       password: 'selam',
       database: 'StockMarket',
-      entities: [User, MediaEntity, Stock , StockDataList],
+      entities: [User, MediaEntity, Stock , StockDataList, WatchlistItem, TransactionData,Trade],
       synchronize: true,
     }),
-    TypeOrmModule.forFeature([User, MediaEntity, Stock, StockDataList]),
+    TypeOrmModule.forFeature([User, MediaEntity, Stock, StockDataList, WatchlistItem,TransactionData,Trade]),
     AuthModule,
     UsersModule,
   
     MulterModule.register({
       dest: './uploads',
     }),
-   
-
     MediaModule,
-    StockMarketModule,
     StockModule,
-    // MarketModule,
     StockModule,
-    MarketModule,
-    // AdminModule,
+
+    WatchlistModule,
+    TransactionModule,
+
   ],
   controllers: [AppController],
   providers: [AppService],

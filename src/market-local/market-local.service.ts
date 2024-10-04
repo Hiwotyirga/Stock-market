@@ -15,7 +15,14 @@ export class StockService {
   async getStockData(): Promise<StockDataList[]> {
     return this.stockRepository.find();
   }
-
+   // GET:ID method
+   async getOneStockData(id:string): Promise<StockDataList> {
+    const stock = this.stockRepository.findOne({where:{id:id}});
+    if(!stock){
+      throw new NotFoundException("Stock with Id no found")
+    }
+    return stock
+  }
   // POST method
   async createStockData(stockDataDto: StockDataDto): Promise<StockDataList> {
     const stockData = this.stockRepository.create({
