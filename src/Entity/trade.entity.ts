@@ -1,8 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 import { User } from './user.entity';
 import { StockDataList } from './StockList.entity';
 
-@Entity({ name: 'trades' }) 
+@Entity({ name: 'trades' })
 export class Trade {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -19,7 +25,7 @@ export class Trade {
   quantity: number;
 
   @Column()
-  transactionType: 'buy' | 'sell'; 
+  transactionType: 'buy' | 'sell';
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   transactionDate: Date;

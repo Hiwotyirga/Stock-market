@@ -1,7 +1,6 @@
 import { Optional } from '@nestjs/common';
 import { IsOptional, IsString } from 'class-validator';
 
-
 export class UserCreateDto {
   @IsString()
   name: string;
@@ -11,7 +10,7 @@ export class UserCreateDto {
 
   @IsString()
   password: string;
-  
+
   @IsOptional()
   @IsString()
   role: string;

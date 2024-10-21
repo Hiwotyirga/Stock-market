@@ -1,24 +1,48 @@
 import { Injectable } from '@nestjs/common';
+import { User } from 'src/Entity/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from 'src/Entity/user.entity';
 
 @Injectable()
 export class UsersService {
-  @InjectRepository(User)
-  private readonly userRepository: Repository<User>;
+  constructor(
+    @InjectRepository(User)
+    private usersRepository: Repository<User>,
+  ) {}
 
-  async findOne(name: string): Promise<User | undefined> {
-    console.log(`Searching for user with username: ${name}`);
-    
-    const user = await this.userRepository.findOneBy({ name });
+  // Create a new user
+  async createUser(userDetails: Partial<User>): Promise<User> {
+    const user = this.usersRepository.create(userDetails);
+    return this.usersRepository.save(user);
+  }
 
-    if (user) {
-      console.log("User found:", user);
-    } else {
-      console.log("No user found with the provided username");
-    }
+  // Find a user by email
+  async findByEmail(email: string): Promise<User | undefined> {
+    return this.usersRepository.findOne({ where: { email } });
+  }
 
-    return user;
+  // Find a user by ID
+  async findById(userId: string): Promise<User | undefined> {
+    return this.usersRepository.findOne({ where: { id: userId } });
+  }
+
+  // Get all users
+  async findAllUsers(): Promise<User[]> {
+    return this.usersRepository.find();
+  }
+
+  // Remove a user by ID
+  async removeUser(userId: string): Promise<void> {
+    await this.usersRepository.delete(userId);
+  }
+
+  async updateUser(userId: string, updateData: Partial<User>): Promise<User> {
+    await this.usersRepository.update(userId, updateData);
+    return this.findById(userId);
+  }
+
+  // Count total number of registered users
+  async countUsers(): Promise<number> {
+    return this.usersRepository.count();
   }
 }

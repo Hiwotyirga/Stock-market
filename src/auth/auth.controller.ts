@@ -1,37 +1,68 @@
-// src/auth/auth.controller.ts
-
-import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, Res, UseGuards } from '@nestjs/common';
-import { AuthGuard } from './auth.guard';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  Delete,
+  Param,
+  UseGuards,
+  Put,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { AuthenticatedRequest } from './auth.types';  // Import the extended interface
-import { Response } from 'express';
+import { User } from 'src/Entity/user.entity';
+import { AuthGuard } from './auth.guard';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(private readonly authService: AuthService) {}
 
-  @HttpCode(HttpStatus.OK)
-
-
-@Post('login')
-  async login(@Body() body: { username: string; password: string }) {
-    return this.authService.signIn(body.username, body.password);
+  @Post('register')
+  async register(
+    @Body('name') name: string,
+    @Body('email') email: string,
+    @Body('password') password: string,
+    @Body('role') role: string,
+  ): Promise<User> {
+    return this.authService.register(name, email, password, role);
   }
 
-
-  @UseGuards(AuthGuard)
-  @Get('profile')
-  getProfile(@Req() req: AuthenticatedRequest) {
-    return req.user;
+  @Post('login')
+  async login(
+    @Body('email') email: string,
+    @Body('password') password: string,
+  ): Promise<{ access_token: string; role: string }> {
+    return this.authService.login(email, password);
   }
 
-  @Post('logout')
-  @UseGuards(AuthGuard)
-  async logout(@Req() req: AuthenticatedRequest, @Res() res: Response) {
-    const userId = req.user?.sub;
-    await this.authService.logout(userId);
+  @Get('users/count')
+  async countUsers(): Promise<{ count: number }> {
+    const count = await this.authService.countUsers();
+    return { count };
+  }
 
-    res.clearCookie('jwt');
-    return res.json({ message: 'Successfully logged out' });
+  @Get('users')
+  async getAllUsers(): Promise<User[]> {
+    return this.authService.getAllUsers();
+  }
+
+  @UseGuards(AuthGuard)
+  @Delete('users/:id')
+  async deleteUser(@Param('id') userId: string): Promise<void> {
+    return this.authService.deleteUser(userId);
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('users/:id')
+  async findOneUser(@Param('id') userId: string): Promise<User> {
+    return this.authService.findOneUser(userId);
+  }
+
+  @UseGuards(AuthGuard)
+  @Put(':id')
+  async update(
+    @Param('id') userId: string,
+    @Body() updateUserDto: Partial<User>,
+  ): Promise<User> {
+    return this.authService.updateUser(userId, updateUserDto);
   }
 }

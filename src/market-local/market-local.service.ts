@@ -15,13 +15,13 @@ export class StockService {
   async getStockData(): Promise<StockDataList[]> {
     return this.stockRepository.find();
   }
-   // GET:ID method
-   async getOneStockData(id:string): Promise<StockDataList> {
-    const stock = this.stockRepository.findOne({where:{id:id}});
-    if(!stock){
-      throw new NotFoundException("Stock with Id no found")
+  // GET:ID method
+  async getOneStockData(id: string): Promise<StockDataList> {
+    const stock = this.stockRepository.findOne({ where: { id: id } });
+    if (!stock) {
+      throw new NotFoundException('Stock with Id no found');
     }
-    return stock
+    return stock;
   }
   // POST method
   async createStockData(stockDataDto: StockDataDto): Promise<StockDataList> {
@@ -33,7 +33,10 @@ export class StockService {
   }
 
   // PUT method
-  async updateStockData(id: string, stockDataDto: StockDataDto): Promise<StockDataList> {
+  async updateStockData(
+    id: string,
+    stockDataDto: StockDataDto,
+  ): Promise<StockDataList> {
     const existingStock = await this.stockRepository.findOne({ where: { id } });
     if (!existingStock) {
       throw new NotFoundException(`Stock data with ID ${id} not found`);

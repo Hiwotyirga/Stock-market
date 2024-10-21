@@ -16,17 +16,15 @@ import { MediaModule } from './news/media/media.module';
 import { MediaEntity } from './Entity/Media.entity';
 import { StockModule } from './market-local/market-local.module';
 import { Stock } from './Entity/stock.entity';
-// import { StockMarketModule } from './stock/stock.module';
 import { StockDataList } from './Entity/StockList.entity';
-// import { MarketModule } from './market/market.module';
-import { WatchlistModule } from './watchlist/watchlist.module';
-import { WatchlistItem } from './Entity/WatchlistItem.entity';
 import { TransactionModule } from './transaction/transaction.module';
 import { TransactionData } from './Entity/TransactionData.enety';
 import { Trade } from './Entity/trade.entity';
+import { ActionModule } from './news/action/action.module';
+import { Comment } from './Entity/comment.entity';
 
 @Module({
-  imports: [  
+  imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
@@ -37,13 +35,30 @@ import { Trade } from './Entity/trade.entity';
       username: 'root',
       password: 'selam',
       database: 'StockMarket',
-      entities: [User, MediaEntity, Stock , StockDataList, WatchlistItem, TransactionData,Trade],
-      synchronize: true,
+      entities: [
+        User,
+        MediaEntity,
+        Stock,
+        StockDataList,
+        TransactionData,
+        Trade,
+        Comment,
+      ],
+      synchronize: false,
+     
     }),
-    TypeOrmModule.forFeature([User, MediaEntity, Stock, StockDataList, WatchlistItem,TransactionData,Trade]),
+    TypeOrmModule.forFeature([
+      User,
+      MediaEntity,
+      Stock,
+      StockDataList,
+      TransactionData,
+      Trade,
+      Comment,
+    ]),
     AuthModule,
     UsersModule,
-  
+
     MulterModule.register({
       dest: './uploads',
     }),
@@ -51,11 +66,11 @@ import { Trade } from './Entity/trade.entity';
     StockModule,
     StockModule,
 
-    WatchlistModule,
     TransactionModule,
 
+    ActionModule,
   ],
-  controllers: [AppController],
+  // controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}

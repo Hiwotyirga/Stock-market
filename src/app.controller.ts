@@ -1,9 +1,17 @@
-import { Body, Controller, Get, Param, Post, Delete, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Delete,
+  Put,
+} from '@nestjs/common';
 import { AppService } from './app.service';
 import { UserCreateDto } from './Dtos/User/UserCreateDto';
 import { User } from './Entity/user.entity';
 
-@Controller('register')
+// @Controller('register')
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
@@ -18,11 +26,14 @@ export class AppController {
   }
 
   @Put(':id')
-  async updateUser(@Param('id') userId: string, @Body() userUpdateDto: Partial<UserCreateDto>): Promise<Partial<User>> {
+  async updateUser(
+    @Param('id') userId: string,
+    @Body() userUpdateDto: Partial<UserCreateDto>,
+  ): Promise<Partial<User>> {
     return this.appService.updateUser(userId, userUpdateDto);
   }
 
-  @Get('') 
+  @Get('')
   async findAllUser(): Promise<User[]> {
     return this.appService.findAlluser();
   }

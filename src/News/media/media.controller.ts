@@ -1,9 +1,18 @@
-import { Controller, Post, UseInterceptors, UploadedFile, Body, Param, Get, Put, Delete, Query, Res } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Get,
+  Param,
+  Body,
+  Delete,
+  Put,
+  UseInterceptors,
+  UploadedFile,
+} from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { MediaService } from './media.service';
+import { UploadMediaDto } from 'src/Dtos/Upload/UploadMediaDto';
 import { MediaEntity } from 'src/Entity/Media.entity';
-import { Response } from 'express';
-import { join } from 'path';
 
 @Controller('media')
 export class MediaController {
@@ -11,49 +20,41 @@ export class MediaController {
 
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
-  async uploadFile(
+  async uploadMedia(
     @UploadedFile() file: Express.Multer.File,
-    @Body('description') description: string,
-    @Body('content') content: string,
+    @Body() uploadDto: UploadMediaDto,
   ): Promise<MediaEntity> {
-    return this.mediaService.handleFileUpload(file, description, content);
+    return this.mediaService.uploadMedia({ file, ...uploadDto });
   }
 
-  @Get('files')
-  async findAllMedia(
-    @Query('page') page: number = 1,
-    @Query('limit') limit: number = 10,
-  ): Promise<{ items: MediaEntity[], total: number }> {
-    return this.mediaService.findAllMedia(page, limit);
-  }
-
-  @Get('file/:id')
-  async findOneMedia(@Param('id') id: string): Promise<{ media: MediaEntity, imageUrl: string }> {
-    return this.mediaService.findOneMedia(id);
-  }
-
-  @Put('file/:id')
-  async updateFile(
-    @Param('id') id: string,
-    @Body('description') description: string,
-    @Body('content') content: string,
-  ): Promise<Partial<MediaEntity>> {
-    return this.mediaService.updateFile(id, description, content);
-  }
-
-  @Delete('file/:id')
-  async deleteFile(@Param('id') id: string): Promise<void> {
-    await this.mediaService.deleteFile(id);
-  }
-
-  @Get('download/:filename')
-  async downloadFile(@Param('filename') filename: string, @Res() res: Response) {
-    const filePath = join(__dirname, '..', '..', 'src', 'Image', filename);
-    res.sendFile(filePath);
-  }
+  // Move the 'count' endpoint before ':id' to avoid conflict
   @Get('count')
-  async getMediaCount(): Promise<{ count: number }> {
-    const count = await this.mediaService.countMedia();
-    return { count };
+  async countAllMedia(): Promise<number> {
+    return await this.mediaService.countMedia();
+  }
+
+  @Get()
+  async getAllMedia(): Promise<MediaEntity[]> {
+    return this.mediaService.getAllMedia();
+  }
+
+  @Get(':id')
+  async getMediaById(@Param('id') id: string): Promise<MediaEntity> {
+    return this.mediaService.getMediaById(id);
+  }
+
+  @Put(':id')
+  @UseInterceptors(FileInterceptor('file'))
+  async updateMedia(
+    @Param('id') id: string,
+    @UploadedFile() file: Express.Multer.File,
+    @Body() uploadDto: UploadMediaDto,
+  ): Promise<MediaEntity> {
+    return this.mediaService.updateMedia(id, { file, ...uploadDto });
+  }
+
+  @Delete(':id')
+  async deleteMedia(@Param('id') id: string): Promise<void> {
+    return this.mediaService.deleteMedia(id);
   }
 }

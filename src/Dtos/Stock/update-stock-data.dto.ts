@@ -1,4 +1,11 @@
-import { IsOptional, IsString, IsArray, IsObject, ValidateNested, IsDate } from 'class-validator';
+import {
+  IsOptional,
+  IsString,
+  IsArray,
+  IsObject,
+  ValidateNested,
+  IsDate,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 
 class StockDetailDto {

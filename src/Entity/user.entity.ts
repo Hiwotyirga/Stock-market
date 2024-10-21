@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { Watchlist } from './WatchlistItem.entity';
+import { Trade } from './trade.entity';
+import { TransactionData } from './TransactionData.enety';
 
 @Entity('users')
 export class User {
@@ -9,15 +10,18 @@ export class User {
   @Column({ type: 'varchar', unique: true })
   name: string;
 
-  @Column({ type: 'varchar', nullable: true })
-  password: string;
-
-  @Column()
+  @Column({ type: 'varchar', unique: true })
   email: string;
 
-  @Column({ type: 'varchar', nullable: true, default: 'User' })
+  @Column({ type: 'varchar' })
+  password: string;
+
+  @Column({ type: 'varchar', default: 'User' })
   role: string;
 
-  @OneToMany(() => Watchlist, (watchlist) => watchlist.user)
-  watchlist: Watchlist[];
+  @OneToMany(() => Trade, (trade) => trade.user)
+  trades: Trade[];
+
+  @OneToMany(() => TransactionData, (transaction) => transaction.user)
+  transactions: TransactionData[];
 }

@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Put, Delete, Param, Body } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Param,
+  Body,
+} from '@nestjs/common';
 import { StockService } from './market-local.service';
 import { StockDataList } from 'src/Entity/StockList.entity';
 import { StockDataDto } from 'src/Dtos/Stock/create-stock-data.dto';
@@ -13,12 +21,14 @@ export class StockController {
   }
 
   @Post('stocks')
-  async createStockData(@Body() createStockDataDto: StockDataDto): Promise<StockDataList> {
+  async createStockData(
+    @Body() createStockDataDto: StockDataDto,
+  ): Promise<StockDataList> {
     return this.stockService.createStockData(createStockDataDto);
   }
- @Get('stocks/:id')
-  async getOneStockData(@Param('id') id:string): Promise<StockDataList>{
-    return this.stockService.getOneStockData(id)
+  @Get('stocks/:id')
+  async getOneStockData(@Param('id') id: string): Promise<StockDataList> {
+    return this.stockService.getOneStockData(id);
   }
 
   @Put('stocks/:id')

@@ -1,5 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { Watchlist } from './WatchlistItem.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { OneToMany } from 'typeorm';
+import { Comment } from './comment.entity';
 
 @Entity('media')
 export class MediaEntity {
@@ -9,18 +16,24 @@ export class MediaEntity {
   @Column()
   filename: string;
 
-  @Column({ length: 10000 })
+  @Column({ type: 'text', nullable: true })
   description: string;
 
-  @Column()
-  content: string;
+  @Column({ nullable: true })
+  title: string;
 
-  @Column()
+  @Column({ nullable: true })
   mimetype: string;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  postTime: Date;
+  @Column({ nullable: true })
+  externalLink: string;
 
-  @OneToMany(() => Watchlist, (watchlist) => watchlist.media)
-  watchlist: Watchlist[];
+  @Column({ nullable: true, default: 0 })
+  likes: number;
+
+  @Column({ nullable: true, default: 0 })
+  dislikes: number;
+
+  @OneToMany(() => Comment, (comment) => comment.media)
+  comments: Comment[];
 }

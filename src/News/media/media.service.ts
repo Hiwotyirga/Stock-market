@@ -1,81 +1,76 @@
-import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { MediaEntity } from 'src/Entity/Media.entity';
+import { UploadMediaDto } from 'src/Dtos/Upload/UploadMediaDto';
 
 @Injectable()
 export class MediaService {
   constructor(
     @InjectRepository(MediaEntity)
-    private readonly mediaRepository: Repository<MediaEntity>,
+    private mediaRepository: Repository<MediaEntity>,
   ) {}
 
-  async handleFileUpload(
-    file: Express.Multer.File,
-    description: string,
-    content: string,
-  ): Promise<MediaEntity> {
-    if (file.size > 10 * 1024 * 1024) {
-      throw new BadRequestException('File size exceeds limit');
+  async uploadMedia(uploadDto: UploadMediaDto): Promise<MediaEntity> {
+    const media = new MediaEntity();
+
+    if (uploadDto.file) {
+      media.filename = uploadDto.file.originalname; 
+      media.mimetype = uploadDto.file.mimetype; 
+      
     }
 
-    const mediaInfo = await this.mediaRepository.save({
-      filename: file.filename,
-      mimetype: file.mimetype,
-      size: file.size,
-      description,
-      content,
-      postTime: new Date(),
-    });
+    media.description = uploadDto.description; 
+    media.title = uploadDto.title;
+    media.externalLink = uploadDto.link; 
 
-    return mediaInfo;
+    return await this.mediaRepository.save(media);
   }
 
-  async findAllMedia(page: number = 1, limit: number = 10): Promise<{ items: MediaEntity[], total: number }> {
-    const [items, total] = await this.mediaRepository.findAndCount({
-      skip: (page - 1) * limit,
-      take: limit,
-    });
-    return { items, total };
+  async getAllMedia(): Promise<MediaEntity[]> {
+    return this.mediaRepository.find();
   }
 
-  async findOneMedia(id: string): Promise<{ media: MediaEntity, imageUrl: string }> {
-    const media = await this.mediaRepository.findOne({ where: { id } });
+  async getMediaById(id: string): Promise<MediaEntity> {
+    const media = await this.mediaRepository.findOneBy({ id });
+    if (!media) {
+      throw new NotFoundException(`Media with ID ${id} not found`);
+    }
+    return media;
+  }
+
+
+   // Method to count total media files
+   async countMedia(): Promise<number> {
+    return await this.mediaRepository.count();
+  }
+
+  async updateMedia(id: string, uploadDto: UploadMediaDto): Promise<MediaEntity> {
+    const media = await this.mediaRepository.findOneBy({ id });
     if (!media) {
       throw new NotFoundException(`Media with ID ${id} not found`);
     }
 
-    // Construct the URL for accessing the image
-    const imageUrl = `http://localhost:3000/images/${media.filename}`;
-    return { media, imageUrl };
-  }
-
-  async updateFile(
-    id: string,
-    description: string,
-    content: string,
-  ): Promise<Partial<MediaEntity>> {
-    const media = await this.mediaRepository.preload({
-      id,
-      description,
-      content,
-    });
-
-    if (!media) {
-      throw new NotFoundException(`Media with ID ${id} not found`);
+    if (uploadDto.file) {
+      media.filename = uploadDto.file.originalname;
+      media.mimetype = uploadDto.file.mimetype; 
+ 
     }
 
-    return this.mediaRepository.save(media);
+    if (uploadDto.link) {
+      media.externalLink = uploadDto.link; 
+    }
+
+    media.description = uploadDto.description;
+    media.title = uploadDto.title; 
+
+    return await this.mediaRepository.save(media);
   }
 
-  async deleteFile(id: string): Promise<void> {
-    const result = await this.mediaRepository.delete(id);
-
+  async deleteMedia(id: string): Promise<void> {
+    const result = await this.mediaRepository.delete({ id });
     if (result.affected === 0) {
       throw new NotFoundException(`Media with ID ${id} not found`);
     }
-  }
-  async countMedia(): Promise<number> {
-    return this.mediaRepository.count();
   }
 }

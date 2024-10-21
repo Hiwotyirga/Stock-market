@@ -5,14 +5,12 @@ export class Stock {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ type: 'varchar'})
+  @Column({ type: 'varchar' })
   weight: string;
 
-  @Column({ type: 'varchar'})
+  @Column({ type: 'varchar' })
   description: string;
-  
+
   @Column()
   symbol: string;
-
-
 }
