@@ -11,8 +11,9 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { MediaService } from './media.service';
-import { UploadMediaDto } from 'src/Dtos/Upload/UploadMediaDto';
-import { MediaEntity } from 'src/Entity/Media.entity';
+import { UploadMediaDto } from '../../Dtos/Upload/UploadMediaDto';
+import { MediaEntity } from '../../Entity/Media.entity'; // Adjust the path based on your structure
+
 
 @Controller('media')
 export class MediaController {

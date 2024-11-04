@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { MediaEntity } from 'src/Entity/Media.entity';
-import { UploadMediaDto } from 'src/Dtos/Upload/UploadMediaDto';
+import { MediaEntity } from '../../Entity/Media.entity'; // Adjust the path based on your structure
+import { UploadMediaDto } from 'Dtos/Upload/UploadMediaDto';
 
 @Injectable()
 export class MediaService {

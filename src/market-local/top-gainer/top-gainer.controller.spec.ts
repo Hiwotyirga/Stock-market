@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ActionController } from './action.controller';
+import { TopGainerController } from './top-gainer.controller';
 
-describe('ActionController', () => {
-  let controller: ActionController;
+describe('TopGainerController', () => {
+  let controller: TopGainerController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [ActionController],
+      controllers: [TopGainerController],
     }).compile();
 
-    controller = module.get<ActionController>(ActionController);
+    controller = module.get<TopGainerController>(TopGainerController);
   });
 
   it('should be defined', () => {

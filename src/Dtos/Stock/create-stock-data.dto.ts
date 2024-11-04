@@ -1,43 +1,54 @@
-import { IsString, IsOptional, IsArray, ValidateNested } from 'class-validator';
-import { Type } from 'class-transformer';
+import { IsArray, IsOptional, ValidateNested, IsString, IsDate, IsNumber } from 'class-validator';
 
-class StockInfoDto {
+export class TopGainerDto {
   @IsString()
   ticker: string;
 
-  @IsString()
-  price: string;
+  @IsNumber()
+  price: number;  // Change to number
 
-  @IsString()
-  change_amount: string;
+  @IsNumber()
+  change_amount: number;  // Change to number
 
-  @IsString()
-  change_percentage: string;
+  @IsNumber()
+  change_percentage: number;  // Change to number
 
-  @IsString()
-  volume: string;
+  @IsNumber()
+  volume: number;
 }
 
-export class StockDataDto {
-  @IsOptional()
-  @Type(() => Date)
-  lastUpdated?: Date;
 
-  @IsOptional()
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => StockInfoDto)
-  top_gainers?: StockInfoDto[];
+export class TopLoserDto {
+  @IsString()
+  ticker: string;
 
-  @IsOptional()
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => StockInfoDto)
-  top_losers?: StockInfoDto[];
+  @IsNumber()
+  price: number;  // Change to number
 
-  @IsOptional()
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => StockInfoDto)
-  most_actively_traded?: StockInfoDto[];
+  @IsNumber()
+  change_amount: number;  // Change to number
+
+  @IsNumber()
+  change_percentage: number;  // Change to number
+
+  @IsNumber()
+  volume: number;
+}
+
+
+export class MostActiveTradeDto {
+  @IsString()
+  ticker: string;
+
+  @IsNumber()
+  price: number;  // Change to number
+
+  @IsNumber()
+  change_amount: number;  // Change to number
+
+  @IsNumber()
+  change_percentage: number;  // Change to number
+
+  @IsNumber()
+  volume: number;
 }

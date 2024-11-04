@@ -1,76 +1,37 @@
-// src/app.module.ts
+// app.module.ts
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './Entity/user.entity';
-import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './users/users.module';
-import { CacheModule } from '@nestjs/cache-manager';
-import { MulterModule } from '@nestjs/platform-express';
-import { join } from 'path';
 import { ConfigModule } from '@nestjs/config';
-import { AuthController } from './auth/auth.controller';
-import { APP_GUARD } from '@nestjs/core';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { MulterModule } from '@nestjs/platform-express';
+import { AppService } from './app.service';
+import { AuthModule } from './auth/auth.module';
 import { MediaModule } from './news/media/media.module';
-import { MediaEntity } from './Entity/Media.entity';
 import { StockModule } from './market-local/market-local.module';
-import { Stock } from './Entity/stock.entity';
-import { StockDataList } from './Entity/StockList.entity';
-import { TransactionModule } from './transaction/transaction.module';
-import { TransactionData } from './Entity/TransactionData.enety';
-import { Trade } from './Entity/trade.entity';
-import { ActionModule } from './news/action/action.module';
-import { Comment } from './Entity/comment.entity';
+import { PaymentMethodModule } from './payment-method/payment-method.module';
+import { config } from './configure/orm.config';
+import { UsersModule } from './users/users.module';
+import { TopGainerModule } from './market-local/top-gainer/top-gainer.module';
+import { TopLoserModule } from './market-local/top-loser/top-loser.module';
+import { MostActivelyTradedModule } from './market-local/most-actively-traded/most-actively-traded.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: 'selam',
-      database: 'StockMarket',
-      entities: [
-        User,
-        MediaEntity,
-        Stock,
-        StockDataList,
-        TransactionData,
-        Trade,
-        Comment,
-      ],
-      synchronize: false,
-     
-    }),
-    TypeOrmModule.forFeature([
-      User,
-      MediaEntity,
-      Stock,
-      StockDataList,
-      TransactionData,
-      Trade,
-      Comment,
-    ]),
-    AuthModule,
-    UsersModule,
-
+    TypeOrmModule.forRoot(config),
     MulterModule.register({
       dest: './uploads',
     }),
+    AuthModule,
+    UsersModule,
     MediaModule,
-    StockModule,
-    StockModule,
-
-    TransactionModule,
-
-    ActionModule,
+    // StockModule,
+    PaymentMethodModule,
+    TopGainerModule,
+    TopLoserModule,
+    MostActivelyTradedModule
   ],
-  // controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}

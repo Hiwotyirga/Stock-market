@@ -1,16 +1,17 @@
-// src/stock/stock.module.ts
-
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { StockService } from './market-local.service';
-import { StockController } from './market-local.controller';
-import { Stock } from 'src/Entity/stock.entity';
-import { StockDataList } from 'src/Entity/StockList.entity';
-import { Trade } from 'src/Entity/trade.entity';
+import { LocalStockService } from './market-local.service';
+import { MostActivelyTraded } from '../Entity/MostActivelyTraded.entity';
+import { LocalStockController } from './market-local.controller';
+import { MostActivelyTradedModule } from './most-actively-traded/most-actively-traded.module';
+
 
 @Module({
-  imports: [TypeOrmModule.forFeature([StockDataList, Trade])],
-  providers: [StockService],
-  controllers: [StockController],
+  imports: [TypeOrmModule.forFeature([MostActivelyTraded]), MostActivelyTradedModule,
+
+],
+  providers: [LocalStockService],
+  exports: [LocalStockService],
+  controllers: [LocalStockController],
 })
 export class StockModule {}

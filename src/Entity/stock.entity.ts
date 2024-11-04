@@ -1,16 +1,19 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm';
+// src/stocks/entities/stock.entity.ts
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('stock')
+@Entity('stocks')
 export class Stock {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
-  @Column({ type: 'varchar' })
-  weight: string;
-
-  @Column({ type: 'varchar' })
-  description: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Column()
-  symbol: string;
+  ticker: string;
+
+  @Column('decimal')
+  price: number;
+
+  @Column('timestamp')
+  timestamp: Date;
+
+  // Add more fields as necessary
 }

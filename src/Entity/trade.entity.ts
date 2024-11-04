@@ -6,7 +6,6 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { User } from './user.entity';
-import { StockDataList } from './StockList.entity';
 
 @Entity({ name: 'trades' })
 export class Trade {
@@ -16,10 +15,6 @@ export class Trade {
   @ManyToOne(() => User, (user) => user.trades, { eager: true })
   @JoinColumn({ name: 'userId' })
   user: User;
-
-  @ManyToOne(() => StockDataList, (stockData) => stockData.trades)
-  @JoinColumn({ name: 'stockId' })
-  stock: StockDataList;
 
   @Column()
   quantity: number;

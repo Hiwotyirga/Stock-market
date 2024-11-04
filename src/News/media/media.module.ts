@@ -3,7 +3,7 @@ import { MediaController } from './media.controller';
 import { MediaService } from './media.service';
 import { MulterModule } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { MediaEntity } from 'src/Entity/Media.entity';
+import { MediaEntity } from '../../Entity/Media.entity'; // Adjust the path based on your structure
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
 import { ServeStaticModule } from '@nestjs/serve-static';

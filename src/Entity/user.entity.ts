@@ -24,4 +24,5 @@ export class User {
 
   @OneToMany(() => TransactionData, (transaction) => transaction.user)
   transactions: TransactionData[];
+
 }
